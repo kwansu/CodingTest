@@ -6,11 +6,16 @@
 
 N = 1370
 
-count_500, remainder = divmod(N, 500)
-count_100, remainder = divmod(remainder, 100)
-count_50, remainder = divmod(remainder, 50)
-count_10, remainder = divmod(remainder, 10)
+coins = [500, 100, 50, 10]
+result = {}
 
-assert(remainder == 0)
+for coin_size in coins:
+    count, N = divmod(N, coin_size)
+    result[coin_size] = count
 
-print(f"500원 개수:{count_500}개, 100원 개수:{count_100}개, 50원 개수:{count_50}개, 10원 개수:{count_10}개")
+assert(N == 0)
+
+for key, value in result.items():
+    print(f"{key}원의 개수 : {value}개")
+
+print(f"총 동전의 개수 : {sum(result.values())}개")
