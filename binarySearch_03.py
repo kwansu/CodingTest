@@ -29,16 +29,17 @@ print(result)
 
 
 def calc_variation(a, b, dir):
-    return dir * sum(lengths[a:b+1]) - lengths[b]*(b+1 - a) + (lengths[a] + lengths[b])*a
+    return dir * (sum(lengths[a:b+1]) - lengths[b]*(b+1 - a) + (lengths[a] - lengths[b])*a)
 
 
-start, end = 0, N-1
+start, mid, end = 0, N-1, N-1
 a, b = start, end
 dir = 1
 total = 0
-while end >= start:
+while end - start > 1:
     total += calc_variation(a, b, dir)
     if total == M:
+        end = mid
         break
     elif total > M:
         end = mid
@@ -50,7 +51,7 @@ while end >= start:
         a, b, dir = start, mid, 1
 
 
-result = lengths[mid] + (total - M) // (mid + (1 if total - M < 0 else 0))
+result = lengths[end] + (total - M) // (end + (1 if total - M < 0 else 0))
 print(result)
 
 
