@@ -28,22 +28,22 @@ else:
 print(result)
 
 
-# total = 0
-# min = lengths[0]
-# dist = 0
-# n = 0
-# idx = 0
-# for len in lengths:
-#     if min > len:
-#         dist = min - len
-#         min = len
-#         n = idx
+total = 0
+min = lengths[0]
+dist = 0
+n = 0
+idx = 0
+for len in lengths:
+    if min > len:
+        dist = min - len
+        min = len
+        n = idx
 
-#     total += n * dist
-#     if total >= M:
-#         break
+    total += n * dist
+    if total >= M:
+        break
 
-#     idx += 1
+    idx += 1
 
-# result = min + (total - M) // idx
-# print(result)
+result = min + (total - M) // idx
+print(result)
