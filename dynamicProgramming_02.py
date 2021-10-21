@@ -1,5 +1,5 @@
 N = int(input())
-assert(2 <= N <= 30000)
+assert(1 <= N <= 30000)
 
 uncheck_list = [True] * 30000
 cur_list = [N]
