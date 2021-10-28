@@ -1,12 +1,22 @@
-N, M = map(int, input().split())
-cur = int(input())
-
 INF = int(1e9)
-adjacency_list = [[] for _ in range(N+1)]
+# N, M = map(int, input().split())
+# cur = int(input())
 
-for _ in range(M):
-    start, dest, dist = map(int, input().split())
-    adjacency_list[start].append((dest, dist))
+# adjacency_list = [[] for _ in range(N+1)]
+
+# for _ in range(M):
+#     start, dest, dist = map(int, input().split())
+#     adjacency_list[start].append((dest, dist))
+
+N, M = 6, 11
+cur = 1
+adjacency_list = [[]]
+adjacency_list.append([(2, 2), (3, 5), (4, 1)])
+adjacency_list.append([(3, 3), (4, 2)])
+adjacency_list.append([(2, 3), (6, 5)])
+adjacency_list.append([(3, 3), (5, 1)])
+adjacency_list.append([(3, 1), (6, 2)])
+adjacency_list.append([])
 
 dist_list = [INF]*(N+1)
 dist_list[cur] = 0
@@ -26,5 +36,5 @@ while next:
         if not visit_list[i] and min_dist > dist_list[i]:
             min_dist, next = dist_list[i], i
 
-for dist in dist_list:
+for dist in dist_list[1:]:
     print(dist)
