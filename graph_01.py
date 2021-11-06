@@ -22,22 +22,6 @@ print(root_list[1:])
 
 # 신장 트리
 N, M = 7, 9
-
-# adjacency_list = [[] for _ in range(N+1)]
-# def connect_node(n1, n2, e):
-#     adjacency_list[n1].append((e, n2))
-#     adjacency_list[n2].append((e, n1))
-
-# connect_node(1, 2, 29)
-# connect_node(1, 5, 75)
-# connect_node(2, 3, 35)
-# connect_node(2, 6, 34)
-# connect_node(3, 4, 7)
-# connect_node(4, 6, 23)
-# connect_node(4, 7, 13)
-# connect_node(5, 6, 53)
-# connect_node(6, 7, 25)
-
 edge_list = []
 edge_list.append((1, 2, 29))
 edge_list.append((1, 5, 75))
@@ -65,3 +49,37 @@ for n1, n2, cost in edge_list:
 
 
 print(sum([x[2] for x in mst]))
+
+
+# 위상 정렬
+N, M = 7, 8
+indegree_list = [0] * (N+1)
+adjacency_list = [[] for _ in range(N+1)]
+
+def create_edge(s, e):
+    indegree_list[e] += 1
+    adjacency_list[s].append(e)
+
+
+create_edge(1, 2)
+create_edge(1, 5)
+create_edge(2, 3)
+create_edge(2, 6)
+create_edge(3, 4)
+create_edge(4, 7)
+create_edge(5, 6)
+create_edge(6, 4)
+
+cur_queue = [i for i, n in enumerate(indegree_list[1:], start=1) if n == 0]
+sorted_nodes = []
+
+while cur_queue:
+    n = cur_queue.pop(0)
+    sorted_nodes.append(n)
+    for e in adjacency_list[n]:
+        indegree_list[e] -= 1
+        if indegree_list[e] == 0:
+            cur_queue.append(e)
+
+
+print(sorted_nodes)
