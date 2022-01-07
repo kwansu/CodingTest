@@ -1,48 +1,42 @@
-#from itertools import combinations
-from collections import defaultdict
+from bisect import bisect_left
 
-
-def combinations(iterable, r):
-    pool = "".join(sorted(iterable))
-    n = len(pool)
-    if r > n:
-        return
-    indices = list(range(r))
-    yield "".join(sorted(pool[i] for i in indices))
-    while True:
-        for i in reversed(range(r)):
-            if indices[i] != i + n - r:
-                break
-        else:
-            return
-        indices[i] += 1
-        for j in range(i+1, r):
-            indices[j] = indices[j-1] + 1
-        yield "".join(sorted(pool[i] for i in indices))
-
-
-def solution(orders, course):
+def solution(info, query):
     answer = []
-    for n in course:
-        count_dict = defaultdict(int)
-        for order in orders:
-            combos = list(combinations(order, n))
-            for combo in combos:
-                count_dict[combo] += 1
-        max_count = 2
-        local_result = []
-        for combo, count in count_dict.items():
-            if count > max_count:
-                local_result = [combo]
-                max_count = count
-            elif count == max_count:
-                local_result.append(combo)
+    idx_map = {"-": 0, 
+               "cpp": 27, "java": 54, "python": 81,
+               "backend": 9, "frontend": 18,
+               "junior": 3, "senior": 6,
+               "chicken": 1, "pizza": 2}
+    
+    groups = [[] for _ in range(4*3*3*3)]
+    for x in info:
+        data = x.split()
+        score = int(data[-1])
+        indices = [idx_map[data[i]] for i in range(4)]
+        for i in range(16):
+            idx = 0
+            for j in range(4):
+                if i & 1<<j:
+                    idx += indices[j]
+            groups[idx].append(score)
 
-        answer.extend(local_result)
-                
-    return sorted(answer)
+    groups = [sorted(group) for group in groups]
+    
+    for x in query:
+        data, score = x.rsplit(maxsplit=1)
+        score = int(score)
+        data = data.split(" and ")
+        idx = 0
+        for i in data:
+            idx += idx_map[i]
+        
+        group = groups[idx]
+        a = len(group) - bisect_left(group, score)
+        answer.append(a)
+
+    return answer
 
 
-a = ["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"]
-b = [2,3,4]
+a = ["java backend junior pizza 150","python frontend senior chicken 210","python frontend senior chicken 150","cpp backend senior pizza 260","java backend junior chicken 80","python backend senior chicken 50"]
+b = ["java and backend and junior and pizza 100","python and frontend and senior and chicken 200","cpp and - and senior and pizza 250","- and backend and senior and - 150","- and - and - and chicken 100","- and - and - and - 150"]
 print(solution(a, b))
