@@ -1,11 +1,9 @@
 import numpy as np
-from functools import reduce
 
 directions = ((1, 0), (0, 1), (-1, 0), (0, -1))
 
 
 def solution(board, r, c):
-    # graph = np.zeros([4,4,4,4], dtype=np.int8)
     pos_info = [None] * 13
     pos_info[0] = (r, c)
     for x, line in enumerate(board):
@@ -32,8 +30,7 @@ def solution(board, r, c):
                 if not visit_list[nx, ny]:
                     visit_list[nx, ny] = True
                     search_list.append((nx, ny, cost + 1))
-                temp = (1 << board[nx][ny]) & (~remove_info-1)
-                if temp:
+                if (1 << board[nx][ny]) & (~remove_info-1):
                     continue
                 for _ in range(3):
                     nx, ny = nx + dx, ny + dy
